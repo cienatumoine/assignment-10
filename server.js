@@ -1,14 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { db, User, Task } = require('./database/setup');
 require('dotenv').config();
 
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(cors());
 app.use(express.json());
+
 
 // JWT Authentication Middleware
 function requireAuth(req, res, next) {
@@ -64,6 +68,7 @@ app.get('/health', (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -343,7 +348,7 @@ app.use((req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server running on port http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
     console.log(`Health check: http://localhost:${PORT}/health`);
 });
