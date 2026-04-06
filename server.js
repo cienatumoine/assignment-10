@@ -211,6 +211,15 @@ app.get('/api/tasks', requireAuth, async (req, res) => {
     }
 });
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Task Management API is running',
+    environment: process.env.NODE_ENV,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // GET /api/tasks/:id - Get single task
 app.get('/api/tasks/:id', requireAuth, async (req, res) => {
     try {
